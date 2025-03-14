@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyTime.Model;
+using static MyTime.Common.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +9,10 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<SiteUserContext>(options =>
 {
-    options.UseMySql("Server=localhost;User ID=Miko;Password=Alabala1234!;Database=MyTime",
-        new MySqlServerVersion(new Version(8, 0, 41))); // Replace with your MySQL version
+    options.UseMySql(CONNECTION_STRING, ServerVersion.AutoDetect(CONNECTION_STRING));
 });
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -22,6 +21,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 //app.MapGet("/test-db-query", async (SiteUserContext context) =>
 //{
 //    try

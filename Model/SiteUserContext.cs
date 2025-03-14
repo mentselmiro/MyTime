@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyTime.Model;
 
 namespace MyTime.Model;
 

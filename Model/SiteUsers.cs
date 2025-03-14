@@ -1,9 +1,20 @@
-﻿namespace MyTime.Model;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class SiteUsers
+namespace MyTime.Model
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public DateTime Created_at { get; set; }
+    public class SiteUsers
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; } = string.Empty;
+
+        [Required]
+        [EmailAddress]
+        [StringLength(255)]
+        public string Email { get; set; } = string.Empty;
+
+        public DateTime Created_at { get; set; }
+    }
 }
