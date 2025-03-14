@@ -29,3 +29,19 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Style for the submit button */
+.submit-button {
+    background-color: #1598d2; /* Change to your preferred color */
+    color: white; /* Text color */
+    border: #000000; /* Remove border */
+    padding: 5px 20px; /* Add padding */
+    margin: 20px 0; /* Add margin above and below */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    border-radius: 5px; /* Optional: make the button rounded */
+}
+
+    /* Add hover effect for better user experience */
+    .submit-button:hover {
+        background-color: #b6ff00ff; /* Darker shade on hover */
+    }
