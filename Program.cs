@@ -22,18 +22,18 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-app.MapGet("/test-db-query", async (SiteUserContext context) =>
-{
-    try
-    {
-        await context.Database.ExecuteSqlRawAsync("INSERT INTO `mytime`.`users` (`id`, `name`, `email`, `created_at`) VALUES ('4', 'Test4', 'test4@test.com', now());");
-        return Results.Ok("Database query executed successfully!");
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem($"Error: {ex.Message}");
-    }
-});
+//app.MapGet("/test-db-query", async (SiteUserContext context) =>
+//{
+//    try
+//    {
+//        await context.Database.ExecuteSqlRawAsync("INSERT INTO `mytime`.`users` (`id`, `name`, `email`, `created_at`) VALUES ('4', 'Test4', 'test4@test.com', now());");
+//        return Results.Ok("Database query executed successfully!");
+//    }
+//    catch (Exception ex)
+//    {
+//        return Results.Problem($"Error: {ex.Message}");
+//    }
+//});
 
 app.UseHttpsRedirection();
 
