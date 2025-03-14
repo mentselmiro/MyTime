@@ -32,7 +32,7 @@ body {
 
 /* Style for the submit button */
 .submit-button {
-    background-color: #1598d2; /* Change to your preferred color */
+    background-color: #ff6a00; /* Change to your preferred color */
     color: white; /* Text color */
     border: #000000; /* Remove border */
     padding: 5px 20px; /* Add padding */
@@ -45,3 +45,28 @@ body {
     .submit-button:hover {
         background-color: #b6ff00ff; /* Darker shade on hover */
     }
+
+/* Style for input fields */
+.input-field {
+    width: 100px; /* Set the width of the input field */
+    height: 40px; /* Set the height of the input field */
+    padding: 10px; /* Add padding inside the input field */
+    border: 2px solid #ff6a00; /* Light gray border */
+    border-radius: 5px; /* Rounded edges */
+    font-size: 16px; /* Font size for text inside the input */
+}
+
+/* Style for the form container */
+.form-container {
+    border: 2px solid #007bff; /* Blue border color */
+    border-radius: 10px; /* Rounded edges for the form */
+    padding: 20px; /* Padding inside the form container */
+    margin-top: 20px; /* Add margin above the form */
+    background-color: #f9f9f9; /* Light background color for contrast */
+}
+
+/* Optional: Add hover effect for input fields */
+.input-field:hover {
+    border-color: #8efb2fb4; /* Darker blue on hover */
+}
+
