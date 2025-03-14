@@ -70,3 +70,38 @@ body {
     border-color: #8efb2fb4; /* Darker blue on hover */
 }
 
+
+
+/* Style for submit button */
+/*.submit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}*/
+
+    /*.submit-button:hover {
+        background-color: #0056b3;
+    }*/
+
+/* Centered text */
+h2, p {
+    text-align: center;
+}
+
+
+/* Style for invalid input fields */
+.validation-error {
+    border-color: red; /* Red border for invalid fields */
+    background-color: #ffe6e6; /* Light red background */
+}
+
+/* Style for validation error messages */
+.text-danger {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

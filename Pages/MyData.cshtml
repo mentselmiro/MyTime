@@ -1,0 +1,26 @@
+﻿@page
+@model MyTime.Pages.MyDataModelPage
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1>Search for Email</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control input-field @(Model.HasError ? "validation-error" : "")" />
+        @if (Model.HasError)
+        {
+            <span class="text-danger">Please enter a name.</span>
+        }
+    </div>
+    <button type="submit" class="submit-button">Search</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Email))
+{
+    <div style="text-align: center; margin-top: 20px;">
+        <h3>Email Found:</h3>
+        <p>@Model.Email</p>
+    </div>
+}
+
