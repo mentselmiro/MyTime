@@ -1,33 +1,70 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
+/* Responsive Design for Tablets and Mobile */
+@media (max-width: 1024px) and (min-width: 768px) {
+    /* Tablet-specific styles */
+    .input-field {
+        width: 300px; /* Adjust width for tablets */
+        font-size: 14px; /* Smaller font size */
+    }
+
+    body {
+        background-size: contain; /* Adjust background image size */
+    }
+
+    h1, p {
+        font-size: 20px; /* Reduce font size for readability */
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile-specific styles */
+    .input-field {
+        width: 250px; /* Narrower input fields for mobile */
+        font-size: 12px; /* Smaller font size */
+        padding: 8px;
+    }
+
+    body {
+        background-size: cover; /* Ensure background covers the screen */
+        background-position: center top; /* Adjust position for smaller screens */
+    }
+
+    h1, p {
+        text-align: center; /* Center-align text */
+        font-size: 18px; /* Adjust font size for readability */
+    }
+}
+
+/* Style for floating form placeholders */
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
 }
 
 /* Style for the submit button */
@@ -65,59 +102,34 @@ body {
     background-color: #f9f9f9; /* Light background color for contrast */
 }
 
-/* Optional: Add hover effect for input fields */
+/* Optional hover effect for input fields */
 .input-field:hover {
     border-color: #8efb2fb4; /* Darker blue on hover */
 }
 
-
-
-/* Style for submit button */
-/*.submit-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-}*/
-
-    /*.submit-button:hover {
-        background-color: #0056b3;
-    }*/
-
-/* Centered text */
+/* Centered text styles for headings and paragraphs */
 h2, p {
     text-align: center;
 }
 
-
-/* Style for invalid input fields */
+/* Style for invalid input fields (validation errors) */
 .validation-error {
-    border-color: red; /* Red border for invalid fields */
-    background-color: #ffe6e6; /* Light red background */
+    border-color: red !important;
+    background-color: #ffe6e6 !important;
 }
 
-/* Style for validation error messages */
+/* Style for validation error messages below input fields */
 .text-danger {
     color: red;
     font-size: 14px;
     margin-top: 5px;
 }
 
-/* Background image for the body */
+/* Background image for the body (applies globally) */
 body {
-    background-image: url('/images/background.jpg'); /* Path to your image */
+    background-image: url('/images/background.jpg'); /* Path to your image in wwwroot/images/ folder */
     background-size: cover; /* Make the image cover the entire screen */
     background-repeat: no-repeat; /* Prevent repetition of the image */
-    background-position: center; /* Center the image */
-    height: 100vh; /* Ensure it covers full viewport height */
-    margin: 0; /* Remove default margins */
-}
-
-/* Optional: Style for text on top of the background */
-h1, p {
-    color: white; /* Text color for better visibility on dark backgrounds */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+    background-position: center; /* Center the image on larger screens by default*/
+    height: auto;
 }
