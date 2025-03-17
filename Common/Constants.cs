@@ -6,7 +6,7 @@
             public const string DefaultDateFormat = "yyyy-MM-dd";
             public const int MaxNameLength = 255;
             public const int MaxEmailLength = 255;
-            public const string CONNECTION_STRING = "Server=localhost;User ID=Miko;Password=Alabala1234!;Database=MyTime";
+            public const string CONNECTION_STRING = "Server=localhost;User ID=Miko;Password=Alabala1234!;Database=mytime";
 
         // Add more constants as needed
 
