@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyTime.Model;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace MyTime.Pages
 {
@@ -26,6 +28,9 @@ namespace MyTime.Pages
         [BindProperty]
         public string SelectedTimeFrame { get; set; } = string.Empty;
 
+        [BindProperty]
+        public string? Description { get; set; } // Optional field
+
         public string ConfirmationMessage { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnPostAsync()
@@ -33,14 +38,13 @@ namespace MyTime.Pages
             if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Email) &&
                 !string.IsNullOrEmpty(SelectedDate) && !string.IsNullOrEmpty(SelectedTimeFrame))
             {
-                // Parse SelectedDate and combine it with SelectedTimeFrame to create a DateTime object.
                 DateTime selectedDateTime;
                 try
                 {
                     var date = DateTime.Parse(SelectedDate);
                     var timeRange = SelectedTimeFrame.Split('-');
-                    var startTime = TimeSpan.Parse(timeRange[0]); // Parse start time (e.g., "08:00")
-                    selectedDateTime = date.Add(startTime); // Combine date with start time
+                    var startTime = TimeSpan.Parse(timeRange[0]);
+                    selectedDateTime = date.Add(startTime);
                 }
                 catch
                 {
@@ -48,19 +52,35 @@ namespace MyTime.Pages
                     return Page();
                 }
 
-                // Save to database
+                // Clean up the description field (trim spaces, remove if empty)
+                if (!string.IsNullOrWhiteSpace(Description))
+                {
+                    Description = Description.Trim();
+                }
+                else
+                {
+                    Description = string.Empty;
+                }
+
+                // Generate a random, URL-safe key
+                string userHash = GenerateUrlSafeRandomKey();
+
+                // Save user record
                 var siteUser = new SiteUsers
                 {
                     Name = Name,
                     Email = Email,
                     Created_at = DateTime.Now,
-                    Reserved_time = selectedDateTime
+                    Reserved_time = selectedDateTime,
+                    User_text = Description,
+                    User_hash = userHash // Save the random key in user_hash column
                 };
 
                 _context.Users.Add(siteUser);
                 await _context.SaveChangesAsync();
 
-                ConfirmationMessage = $"Thank you, {Name}! You have successfully booked {SelectedTimeFrame} on {SelectedDate}.";
+                ConfirmationMessage =
+                    $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /ViewBooking/{siteUser.User_hash}";
             }
             else
             {
@@ -68,6 +88,24 @@ namespace MyTime.Pages
             }
 
             return Page();
+        }
+
+        // Method to generate a URL-safe random key
+        private static string GenerateUrlSafeRandomKey()
+        {
+            byte[] randomBytes = new byte[8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomBytes);
+            }
+
+            // Convert to Base64 and replace unsafe characters
+            string base64Key = Convert.ToBase64String(randomBytes)
+                                .Replace("/", "_")
+                                .Replace("+", "-")
+                                .TrimEnd('=');
+
+            return base64Key; // Example: "Pb7d2InvZg"
         }
     }
 }
