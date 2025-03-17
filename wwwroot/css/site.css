@@ -176,3 +176,18 @@ body {
     font-size: 16px;
 }
 
+/* Style for the description field */
+.description-field {
+    height: 100px; /* Increase height */
+    resize: vertical; /* Allows manual resizing by users */
+    font-size: 14px; /* Adjust font size */
+    padding: 10px; /* Add padding inside */
+    border-radius: 5px; /* Rounded edges */
+    border: 2px solid #ff6a00; /* Border color */
+}
+@media (max-width: 768px) {
+    .description-field {
+        height: 80px; /* Slightly smaller for mobile devices */
+    }
+}
+

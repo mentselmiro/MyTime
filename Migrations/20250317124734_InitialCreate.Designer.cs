@@ -12,8 +12,8 @@ using MyTime.Model;
 namespace MyTime.Migrations
 {
     [DbContext(typeof(SiteUserContext))]
-    [Migration("20250317090825_Rating")]
-    partial class Rating
+    [Migration("20250317124734_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,7 @@ namespace MyTime.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("SelectedDateAndHour")
+                    b.Property<DateTime>("Reserved_time")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");

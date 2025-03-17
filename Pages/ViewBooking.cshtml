@@ -1,0 +1,27 @@
+﻿@page "{hash?}"
+@model MyTime.Pages.ViewBookingModel
+
+<link rel="stylesheet" href="/css/viewbooking.css" />
+
+<div class="viewbooking-container">
+    @if (string.IsNullOrEmpty(Model.Hash))
+    {
+        <h1>It is time to buy your free time</h1>
+        <p><a asp-page="/BuyTime" class="btn btn-primary">Go to Buy Time</a></p>
+    }
+    else if (Model.User != null)
+    {
+        <h1>Dear @Model.User.Name, it is time for your free time.</h1>
+        <p>Reserved Date and Time: @Model.User.Reserved_time</p>
+        <p>Message from @Model.User.Name:</p>
+        <p>@Model.User.User_text</p>
+    }
+    else
+    {
+        <h1>Invalid Booking Link</h1>
+        <p>The booking link you provided is invalid or expired. You can buy more free time.</p>
+        <p><a asp-page="/BuyTime" class="btn btn-primary">Go to Buy Time</a></p>
+    }
+</div>
+
+

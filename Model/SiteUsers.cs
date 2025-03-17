@@ -18,5 +18,8 @@ namespace MyTime.Model
         public DateTime Created_at { get; set; }
 
         public DateTime Reserved_time { get; set; }
+
+        public string User_text { get; set; } = string.Empty;
+        public string User_hash { get; set; } = string.Empty;
     }
 }
