@@ -1,0 +1,52 @@
+﻿@page
+@model MyTime.Pages.BuyTime
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1>Buy Page</h1>
+
+<div class="buy-container">
+    <p>Please provide your details and select a date to book a time frame:</p>
+
+    <form method="post">
+        <!-- Name Field -->
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="Name" class="form-control input-field" placeholder="Enter your name" required />
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-group">
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="Email" class="form-control input-field" placeholder="Enter your email" required />
+        </div>
+
+        <!-- Date Field -->
+        <div class="form-group">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="SelectedDate" class="form-control input-field" required />
+        </div>
+
+        <!-- Time Frame Popup -->
+        <div id="time-frame-popup">
+            <label>Select Time Frame</label>
+            <select ontimeupdate="ontimeupdate" id="time-frame" name="SelectedTimeFrame" class="form-control input-field" required>
+                <option value="" disabled selected>-- Select Time Frame --</option>
+                <option value="08:00-10:00">08:00 - 10:00</option>
+                <option value="10:00-12:00">10:00 - 12:00</option>
+                <option value="12:00-14:00">12:00 - 14:00</option>
+                <option value="14:00-16:00">14:00 - 16:00</option>
+                <option value="16:00-18:00">16:00 - 18:00</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-button">Save Selection</button>
+    </form>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ConfirmationMessage))
+{
+    <div class="confirmation-message">
+        <p>@Model.ConfirmationMessage</p>
+    </div>
+}

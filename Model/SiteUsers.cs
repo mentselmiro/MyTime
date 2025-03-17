@@ -16,5 +16,7 @@ namespace MyTime.Model
         public string Email { get; set; } = string.Empty;
 
         public DateTime Created_at { get; set; }
+
+        public DateTime Reserved_time { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using MyTime.Model;
 namespace MyTime.Migrations
 {
     [DbContext(typeof(SiteUserContext))]
-    [Migration("20250314123342_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250317090825_Rating")]
+    partial class Rating
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,11 +38,16 @@ namespace MyTime.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("SelectedDateAndHour")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
