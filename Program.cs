@@ -13,10 +13,11 @@ builder.Services.AddDbContext<SiteUserContext>(options =>
 {
     options.UseMySql(CONNECTION_STRING, ServerVersion.AutoDetect(CONNECTION_STRING));
 });
-var app = builder.Build();
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IMailService, MailService>();
+
+var app = builder.Build();
 
 app.UseStaticFiles();
 
