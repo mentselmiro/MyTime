@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyTime.MailModel;
 using MyTime.Model;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Security.Cryptography;
 
 namespace MyTime.Pages
 {
-    public class BuyTime(SiteUserContext context) : PageModel
+    public class BuyTime(SiteUserContext context, IMailService mailService) : PageModel
     {
         private readonly SiteUserContext _context = context;
+        private readonly IMailService _mailService = mailService;
 
         [BindProperty]
         [Required]
@@ -78,6 +79,25 @@ namespace MyTime.Pages
 
                 _context.Users.Add(siteUser);
                 await _context.SaveChangesAsync();
+
+
+                // Prepare the email content
+                var mailRequest = new MailRequest
+                {
+                    ToEmail = Email, // Send to the customer's email
+                    Subject = "Time Purchase Confirmation",
+                    Body = $"Dear {Name}, your booking is confirmed. Use this link to view your details: /ViewBooking/{siteUser.User_hash}"
+                };
+                try
+                {
+                    await _mailService.SendEmailAsync(mailRequest);
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that occur during email sending
+                    Console.WriteLine($"Error sending email: {ex.Message}");
+                }
+
 
                 ConfirmationMessage =
                     $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /ViewBooking/{siteUser.User_hash}";

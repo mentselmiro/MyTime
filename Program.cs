@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MyTime.MailModel;
 using MyTime.Model;
 using static MyTime.Common.Constants;
 
@@ -11,8 +13,10 @@ builder.Services.AddDbContext<SiteUserContext>(options =>
 {
     options.UseMySql(CONNECTION_STRING, ServerVersion.AutoDetect(CONNECTION_STRING));
 });
-
 var app = builder.Build();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddTransient<IMailService, MailService>();
 
 app.UseStaticFiles();
 
