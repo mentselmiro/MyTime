@@ -16,22 +16,8 @@ namespace MyTime.Pages
             // This handles GET requests.
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public void OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            // Automatically populate Created_at with the current time.
-            SiteUser.Created_at = DateTime.Now;
-
-            // Add the new user to the database.
-            _context.Users.Add(SiteUser);
-            await _context.SaveChangesAsync();
-
-            // Redirect or display a success message.
-            return RedirectToPage(); // Reloads the page after submission.
         }
     }
     public class AnotherIndexModel(SiteUserContext context) : PageModel
@@ -46,22 +32,8 @@ namespace MyTime.Pages
             // This handles GET requests.
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public void OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            // Automatically populate Created_at with the current time.
-            SiteUser.Created_at = DateTime.Now;
-
-            // Add the new user to the database.
-            _context.Users.Add(SiteUser);
-            await _context.SaveChangesAsync();
-
-            // Redirect or display a success message.
-            return RedirectToPage(); // Reloads the page after submission.
         }
     }
 }
