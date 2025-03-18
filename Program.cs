@@ -34,3 +34,5 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.Run();
+
+app.UseResponseCompression();
