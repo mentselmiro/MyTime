@@ -1,0 +1,11 @@
+﻿.background-container-privacy {
+    background-image: url('/images/background_privacy.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -108,6 +108,58 @@ body {
     border-color: #8efb2fb4; /* Darker blue on hover */
 }
 
+
+
+/* Responsive font sizes and colors for headings, paragraphs, and list items */
+
+.responsive-h2 {
+    font-size: 2.5rem; /* Adjust font size as needed */
+    color: #000000; /* Deep purple color */
+    font-family: Arial, sans-serif; /* Font family */
+}
+
+.responsive-p {
+    font-size: 1.2rem; /* Adjust font size as needed */
+    color: #333; /* Dark gray color */
+    font-family: Arial, sans-serif; /* Font family */
+}
+
+.responsive-li {
+    font-size: 1.5rem; /* Adjust font size as needed */
+    color: #333; /* Dark gray color */
+    font-family: Arial, sans-serif; /* Font family */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .responsive-h2 {
+        font-size: 2rem;
+    }
+
+    .responsive-p {
+        font-size: 1.6rem;
+    }
+
+    .responsive-li {
+        font-size: 1.4rem;
+    }
+}
+
+/* Further adjustments for mobile devices */
+@media (max-width: 480px) {
+    .responsive-h2 {
+        font-size: 1.8rem;
+    }
+
+    .responsive-p {
+        font-size: 1.4rem;
+    }
+
+    .responsive-li {
+        font-size: 1.2rem;
+    }
+}
+
 /* Centered text styles for headings and paragraphs */
 h2, p {
     text-align: center;
