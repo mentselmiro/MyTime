@@ -24,6 +24,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseHttpsRedirection();
+app.UseHsts();
 
 app.UseRouting();
 
