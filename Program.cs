@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyTime.Model;
 using static MyTime.Common.Constants;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,21 @@ builder.Services.AddDbContext<SiteUserContext>(options =>
 {
     options.UseMySql(CONNECTION_STRING, ServerVersion.AutoDetect(CONNECTION_STRING));
 });
+
+builder.Services.AddHsts(options =>
+{
+    options.Preload = true;
+    options.IncludeSubDomains = true;
+    options.MaxAge = TimeSpan.FromDays(30);
+    options.ExcludedHosts.Add("time4my.life");
+});
+
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+    options.HttpsPort = 5001;
+});
+
 
 var app = builder.Build();
 
