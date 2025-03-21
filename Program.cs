@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyTime.Model;
 using static MyTime.Common.Constants;
-using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +18,11 @@ builder.Services.AddHsts(options =>
     options.IncludeSubDomains = true;
     options.MaxAge = TimeSpan.FromDays(30);
     options.ExcludedHosts.Add("time4my.life");
+});
+
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
 });
 
 //builder.Services.AddHttpsRedirection(options =>
@@ -51,14 +55,13 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
+app.UseResponseCompression();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages();//  .WithStaticAssets();
 
 app.Run();
-
-app.UseResponseCompression();
