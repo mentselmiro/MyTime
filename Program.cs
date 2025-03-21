@@ -21,11 +21,11 @@ builder.Services.AddHsts(options =>
     options.ExcludedHosts.Add("time4my.life");
 });
 
-builder.Services.AddHttpsRedirection(options =>
-{
-    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-    options.HttpsPort = 5004;
-});
+//builder.Services.AddHttpsRedirection(options =>
+//{
+//    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+//    options.HttpsPort = 5004;
+//});
 
 
 var app = builder.Build();
