@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyTime.Model;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Security.Cryptography;
 
 namespace MyTime.Pages
@@ -80,7 +79,7 @@ namespace MyTime.Pages
                 await _context.SaveChangesAsync();
 
                 ConfirmationMessage =
-                    $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /ViewBooking/{siteUser.User_hash}";
+                    $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /view-booking/{siteUser.User_hash}";
             }
             else
             {
