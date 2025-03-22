@@ -7,7 +7,7 @@
     @if (string.IsNullOrEmpty(Model.Hash))
     {
         <h1>It is time to buy your free time</h1>
-        <p><a asp-page="/BuyTime" class="btn btn-primary">Go to Buy Time</a></p>
+        <p><a asp-page="/BuyTime" class="btn btn-primary">Go to Take Your Time</a></p>
     }
     else if (Model.User != null)
     {
@@ -20,7 +20,7 @@
     {
         <h1>Invalid Booking Link</h1>
         <p>The booking link you provided is invalid or expired. You can buy more free time.</p>
-        <p><a asp-page="/BuyTime" class="btn btn-primary">Go to Buy Time</a></p>
+        <p><a asp-page="/BuyTime" class="btn btn-primary">Go to Take Your Time</a></p>
     }
 </div>
 
