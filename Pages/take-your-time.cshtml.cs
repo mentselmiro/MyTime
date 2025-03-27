@@ -100,7 +100,7 @@ namespace MyTime.Pages
 
 
                 ConfirmationMessage =
-                    $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /ViewBooking/{siteUser.User_hash}";
+                    $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /view-booking/{siteUser.User_hash}";
             }
             else
             {
