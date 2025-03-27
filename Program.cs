@@ -27,13 +27,6 @@ builder.Services.AddResponseCompression(options =>
     options.EnableForHttps = true;
 });
 
-//builder.Services.AddHttpsRedirection(options =>
-//{
-//    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-//    options.HttpsPort = 5004;
-//});
-
-
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IMailService, MailService>();
 
@@ -41,15 +34,13 @@ var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-app.UseHsts();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
+app.UseHsts();
 
 app.UseExceptionHandler(errorApp =>
 {
