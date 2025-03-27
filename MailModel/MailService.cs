@@ -5,28 +5,29 @@ using MimeKit;
 
 namespace MyTime.MailModel;
 
-public class MailService(IOptions<MailSettings> mailSettings) : IMailService
+public class MailService : IMailService
 {
-    private readonly MailSettings _mailSettings = mailSettings.Value;
+    private readonly MailSettings _mailSettings;
+
+    public MailService(IOptions<MailSettings> mailSettings)
+    {
+        _mailSettings = mailSettings.Value;
+    }
 
     public async Task SendEmailAsync(MailRequest mailRequest)
     {
-        MimeMessage email = new()
-        {
-            Sender = MailboxAddress.Parse(_mailSettings.Mail)
-        };
+        var email = new MimeMessage();
+        email.Sender = MailboxAddress.Parse(_mailSettings.SenderEmail);
+        email.From.Add(MailboxAddress.Parse(_mailSettings.SenderEmail));
         email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
         email.Subject = mailRequest.Subject;
 
-        BodyBuilder builder = new()
-        {
-            HtmlBody = mailRequest.Body
-        };
+        var builder = new BodyBuilder { HtmlBody = mailRequest.Body };
         email.Body = builder.ToMessageBody();
 
         using var smtp = new SmtpClient();
         smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-        smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+        smtp.Authenticate(_mailSettings.SenderEmail, _mailSettings.Password);
         await smtp.SendAsync(email);
         smtp.Disconnect(true);
     }
