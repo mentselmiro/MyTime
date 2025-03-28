@@ -86,7 +86,7 @@ namespace MyTime.Pages
                 {
                     ToEmail = Email, // Send to the customer's email
                     Subject = "Time Purchase Confirmation",
-                    Body = $"Dear {Name}, your booking is confirmed. Use this link to view your details: /ViewBooking/{siteUser.User_hash}"
+                    Body = $"Dear {Name}, your booking is confirmed. Use this link to view your details: https://time4my.life/view-booking/{siteUser.User_hash}"
                 };
                 try
                 {
