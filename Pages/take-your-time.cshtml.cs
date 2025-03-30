@@ -1,14 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using MyTime.MailModel;
 using MyTime.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using static MyTime.Common.Constants;
 
 namespace MyTime.Pages
 {
-    public class BuyTime(SiteUserContext context) : PageModel
+    public class BuyTime(SiteUserContext context, IMailService mailService) : PageModel
     {
         private readonly SiteUserContext _context = context;
+        private readonly IMailService _mailService = mailService;
 
         [BindProperty]
         [Required]
@@ -31,6 +35,8 @@ namespace MyTime.Pages
         public string? Description { get; set; } // Optional field
 
         public string ConfirmationMessage { get; set; } = string.Empty;
+
+        public string AlertMessage { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -78,8 +84,43 @@ namespace MyTime.Pages
                 _context.Users.Add(siteUser);
                 await _context.SaveChangesAsync();
 
-                ConfirmationMessage =
+
+                // Prepare the email content
+                var mailRequest = new MailRequest
+                {
+                    ToEmail = Email, // Send to the customer's email
+                    Subject = "Time Purchase Confirmation",
+                    Body = $"Dear {Name}, your booking is confirmed. Use this link to view your details: https://time4my.life/view-booking/{siteUser.User_hash}"
+                };
+
+                // Update or create a new record in the Settings table
+                var today = DateTime.Now.Date;
+                var emailStats = await _context.EmailStats.FirstOrDefaultAsync(s => s.Date.Date == today);
+
+
+                if (emailStats == null)
+                {
+                    emailStats = new EmailStats
+                    {
+                        Date = today,
+                        LastSent = DateTime.Now,
+                        SentEmails = 0
+                    };
+                    _context.EmailStats.Add(emailStats);
+                }
+                if (emailStats.SentEmails < EMAIL_LIMIT) // Here is the daily limit
+                {
+                    // TrySendEmail
+                    await TrySendEmail(mailRequest, emailStats);
+
+                    ConfirmationMessage =
                     $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /view-booking/{siteUser.User_hash}";
+                }
+                else
+                {
+                    // Handle the case where more than 10 emails were sent and the email wont be send
+                    AlertMessage = ("Reached the maximum limit of sent emails for today");
+                }
             }
             else
             {
@@ -87,6 +128,24 @@ namespace MyTime.Pages
             }
 
             return Page();
+        }
+
+        private async Task TrySendEmail(MailRequest mailRequest, EmailStats emailStats)
+        {
+            try
+            {
+                await _mailService.SendEmailAsync(mailRequest);
+
+                emailStats.LastSent = DateTime.Now;
+                emailStats.SentEmails++;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during email sending
+                Console.WriteLine($"Error sending email: {ex.Message}");
+            }
         }
 
         // Method to generate a URL-safe random key
