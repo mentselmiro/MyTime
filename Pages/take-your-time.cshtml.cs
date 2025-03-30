@@ -92,50 +92,34 @@ namespace MyTime.Pages
                     Body = $"Dear {Name}, your booking is confirmed. Use this link to view your details: https://time4my.life/view-booking/{siteUser.User_hash}"
                 };
 
+                // Update or create a new record in the Settings table
+                var today = DateTime.Now.Date;
+                var emailStats = await _context.EmailStats.FirstOrDefaultAsync(s => s.Date.Date == today);
 
 
-
-                try
+                if (emailStats == null)
                 {
-                    await _mailService.SendEmailAsync(mailRequest);
-                    // Update or create a new record in the Settings table
-                    var today = DateTime.Now.Date;
-                    var emailStats = await _context.EmailStats.FirstOrDefaultAsync(s => s.Date.Date == today);
-
-                    if(emailStats == null)
-    {
-                        emailStats = new EmailStats
-                        {
-                            Date = today,
-                            LastSent = DateTime.Now,
-                            SentEmails = 1
-                        };
-                        _context.EmailStats.Add(emailStats);
-                    }
-                    else
+                    emailStats = new EmailStats
                     {
-                        emailStats.LastSent = DateTime.Now;
-                        emailStats.SentEmails++;
-                    }
-                    await _context.SaveChangesAsync();
-
-                    // Check if more than 10 emails were sent today
-                    if (emailStats.SentEmails > 2)
-                    {
-                        // Handle the case where more than 10 emails were sent
-                        AlertMessage = ("Reached the maximum limit of sent emails for today");
-                    }
-
+                        Date = today,
+                        LastSent = DateTime.Now,
+                        SentEmails = 0
+                    };
+                    _context.EmailStats.Add(emailStats);
                 }
-                catch (Exception ex)
+                if (emailStats.SentEmails < 10) // Here is the daily limit
                 {
-                    // Handle any exceptions that occur during email sending
-                    Console.WriteLine($"Error sending email: {ex.Message}");
-                }
+                    // TrySendEmail
+                    await TrySendEmail(mailRequest, emailStats);
 
-
-                ConfirmationMessage =
+                    ConfirmationMessage =
                     $"Thank you, {Name}! Your booking is confirmed. Use this link to view your details: /view-booking/{siteUser.User_hash}";
+                }
+                else
+                {
+                    // Handle the case where more than 10 emails were sent and the email wont be send
+                    AlertMessage = ("Reached the maximum limit of sent emails for today");
+                }
             }
             else
             {
@@ -143,6 +127,24 @@ namespace MyTime.Pages
             }
 
             return Page();
+        }
+
+        private async Task TrySendEmail(MailRequest mailRequest, EmailStats emailStats)
+        {
+            try
+            {
+                await _mailService.SendEmailAsync(mailRequest);
+
+                emailStats.LastSent = DateTime.Now;
+                emailStats.SentEmails++;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during email sending
+                Console.WriteLine($"Error sending email: {ex.Message}");
+            }
         }
 
         // Method to generate a URL-safe random key

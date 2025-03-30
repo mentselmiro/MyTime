@@ -230,8 +230,8 @@ body {
 
 .text-danger-alert {
     color: red;
-    font-size: 36px;
-    margin-top: 8px;
+    font-size: 42px;
+    margin-top: 10px;
 }
 
 /* Style for the description field */
