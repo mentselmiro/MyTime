@@ -22,6 +22,28 @@ namespace MyTime.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("MyTime.Model.EmailStats", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("LastSent")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("SentEmails")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailStats");
+                });
+
             modelBuilder.Entity("MyTime.Model.SiteUsers", b =>
                 {
                     b.Property<int>("Id")
@@ -45,6 +67,14 @@ namespace MyTime.Migrations
 
                     b.Property<DateTime>("Reserved_time")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("User_hash")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("User_text")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

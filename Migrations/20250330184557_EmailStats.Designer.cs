@@ -12,8 +12,8 @@ using MyTime.Model;
 namespace MyTime.Migrations
 {
     [DbContext(typeof(SiteUserContext))]
-    [Migration("20250317124734_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250330184557_EmailStats")]
+    partial class EmailStats
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace MyTime.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("MyTime.Model.EmailStats", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("LastSent")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("SentEmails")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailStats");
+                });
 
             modelBuilder.Entity("MyTime.Model.SiteUsers", b =>
                 {
@@ -48,6 +70,14 @@ namespace MyTime.Migrations
 
                     b.Property<DateTime>("Reserved_time")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("User_hash")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("User_text")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

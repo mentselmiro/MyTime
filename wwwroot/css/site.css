@@ -228,6 +228,12 @@ body {
     font-size: 16px;
 }
 
+.text-danger-alert {
+    color: red;
+    font-size: 36px;
+    margin-top: 8px;
+}
+
 /* Style for the description field */
 .description-field {
     height: 100px; /* Increase height */

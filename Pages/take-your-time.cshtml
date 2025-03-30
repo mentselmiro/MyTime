@@ -50,7 +50,16 @@
     </form>
 </div>
 
-@if (!string.IsNullOrEmpty(Model.ConfirmationMessage))
+@if (!string.IsNullOrEmpty(Model.AlertMessage) && !string.IsNullOrEmpty(Model.ConfirmationMessage))
+{
+    <div class="text-danger-alert">
+        <p>@Model.AlertMessage</p>
+    </div>
+    <div class="confirmation-message">
+        <p>@Model.ConfirmationMessage</p>
+    </div>
+}
+else
 {
     <div class="confirmation-message">
         <p>@Model.ConfirmationMessage</p>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using MyTime.MailModel;
 using MyTime.Model;
 using System.ComponentModel.DataAnnotations;
@@ -33,6 +34,8 @@ namespace MyTime.Pages
         public string? Description { get; set; } // Optional field
 
         public string ConfirmationMessage { get; set; } = string.Empty;
+
+        public string AlertMessage { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -88,9 +91,41 @@ namespace MyTime.Pages
                     Subject = "Time Purchase Confirmation",
                     Body = $"Dear {Name}, your booking is confirmed. Use this link to view your details: https://time4my.life/view-booking/{siteUser.User_hash}"
                 };
+
+
+
+
                 try
                 {
                     await _mailService.SendEmailAsync(mailRequest);
+                    // Update or create a new record in the Settings table
+                    var today = DateTime.Now.Date;
+                    var emailStats = await _context.EmailStats.FirstOrDefaultAsync(s => s.Date.Date == today);
+
+                    if(emailStats == null)
+    {
+                        emailStats = new EmailStats
+                        {
+                            Date = today,
+                            LastSent = DateTime.Now,
+                            SentEmails = 1
+                        };
+                        _context.EmailStats.Add(emailStats);
+                    }
+                    else
+                    {
+                        emailStats.LastSent = DateTime.Now;
+                        emailStats.SentEmails++;
+                    }
+                    await _context.SaveChangesAsync();
+
+                    // Check if more than 10 emails were sent today
+                    if (emailStats.SentEmails > 2)
+                    {
+                        // Handle the case where more than 10 emails were sent
+                        AlertMessage = ("Reached the maximum limit of sent emails for today");
+                    }
+
                 }
                 catch (Exception ex)
                 {
