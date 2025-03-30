@@ -4,14 +4,9 @@ namespace MyTime.MailModel;
 
 [ApiController]
 [Route("[controller]")]
-public class MailController : ControllerBase
+public class MailController(IMailService mailService) : ControllerBase
 {
-    private readonly IMailService _mailService;
-
-    public MailController(IMailService mailService)
-    {
-        _mailService = mailService;
-    }
+    private readonly IMailService _mailService = mailService;
 
     [HttpPost]
     public async Task<IActionResult> SendEmail(MailRequest mailRequest)

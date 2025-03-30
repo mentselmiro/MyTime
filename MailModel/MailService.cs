@@ -5,19 +5,16 @@ using MimeKit;
 
 namespace MyTime.MailModel;
 
-public class MailService : IMailService
+public class MailService(IOptions<MailSettings> mailSettings) : IMailService
 {
-    private readonly MailSettings _mailSettings;
-
-    public MailService(IOptions<MailSettings> mailSettings)
-    {
-        _mailSettings = mailSettings.Value;
-    }
+    private readonly MailSettings _mailSettings = mailSettings.Value;
 
     public async Task SendEmailAsync(MailRequest mailRequest)
     {
-        var email = new MimeMessage();
-        email.Sender = MailboxAddress.Parse(_mailSettings.SenderEmail);
+        var email = new MimeMessage
+        {
+            Sender = MailboxAddress.Parse(_mailSettings.SenderEmail)
+        };
         email.From.Add(MailboxAddress.Parse(_mailSettings.SenderEmail));
         email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
         email.Subject = mailRequest.Subject;

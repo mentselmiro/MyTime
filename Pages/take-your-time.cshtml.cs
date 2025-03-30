@@ -5,6 +5,7 @@ using MyTime.MailModel;
 using MyTime.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using static MyTime.Common.Constants;
 
 namespace MyTime.Pages
 {
@@ -107,7 +108,7 @@ namespace MyTime.Pages
                     };
                     _context.EmailStats.Add(emailStats);
                 }
-                if (emailStats.SentEmails < 10) // Here is the daily limit
+                if (emailStats.SentEmails < EMAIL_LIMIT) // Here is the daily limit
                 {
                     // TrySendEmail
                     await TrySendEmail(mailRequest, emailStats);

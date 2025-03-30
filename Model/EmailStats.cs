@@ -2,7 +2,6 @@
 
 namespace MyTime.Model;
 
-
 public class EmailStats
 {
     [Key]
