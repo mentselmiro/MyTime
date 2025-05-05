@@ -1,8 +1,4 @@
-﻿using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
-
-namespace MyTime.MailModel;
+﻿namespace MyTime.MailModel;
 
 public interface IMailService
 {
