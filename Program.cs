@@ -5,6 +5,10 @@ using static MyTime.Common.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = builder.Configuration;
+var connectionString = configuration.GetConnectionString("DefaultConnection");
+var mailPassword = configuration["MailSettings:Password"];
+
 // Add services to the container.
 // Registers Razor Pages as a service to enable Razor Pages functionality.
 builder.Services.AddRazorPages();
@@ -13,7 +17,10 @@ builder.Services.AddRazorPages();
 // The connection string and server version are automatically detected.
 builder.Services.AddDbContext<SiteUserContext>(options =>
 {
-    options.UseMySql(CONNECTION_STRING, ServerVersion.AutoDetect(CONNECTION_STRING));
+    options.UseMySql(
+        connectionString, 
+        ServerVersion.AutoDetect(connectionString)
+    );
 });
 
 // Configures HTTP Strict Transport Security (HSTS) to enforce HTTPS connections.
